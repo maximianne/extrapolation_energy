@@ -93,15 +93,16 @@ Adjustment for generalizability
 Format:
 
 Pandas DataFrame:
+
 df[["X1", "X2", "X3"]]
 
 Or NumPy array:
+
 X = np.column_stack([x1, x2, x3])
 
 Shape must be:
 
 (n_samples, n_features)
-
 
 Used by:
 
@@ -118,8 +119,11 @@ Calibration & augmented calibration
 All arrays must represent the same units in the same order:
 
 Y[i]  → outcome for unit i (valid only if S[i] = 1)
+
 T[i]  → treatment for unit i (valid only if S[i] = 1)
+
 S[i]  → sample membership for unit i
+
 X[i]  → covariates for unit i
 
 
@@ -157,13 +161,17 @@ df = pd.DataFrame({
 Calling an estimator:
 
 Y = df["Y"].values
+
 T = df["T"].values
+
 S = df["S"].values
+
 X = df[["X1", "X2"]]
 
 from methods.ipsw import estimate_ate_ipsw
 
 result = estimate_ate_ipsw(y=Y, a=T, s=S, X=X)
+
 print(result.ate)
 
 ### ✅ 6. Common mistakes to avoid
@@ -188,10 +196,12 @@ print(result.ate)
 Before running any estimator, confirm:
 
 assert df["S"].isin([0,1]).all()
-assert df["T"].isin([0,1]).all()          # only matters for S=1
-assert df[["X1","X2"]].shape[1] >= 1
-assert len(df["Y"]) == len(df["S"]) == len(df["T"])
 
+assert df["T"].isin([0,1]).all()          # only matters for S=1
+
+assert df[["X1","X2"]].shape[1] >= 1
+
+assert len(df["Y"]) == len(df["S"]) == len(df["T"])
 
 If you pass this checklist, all estimators in the repository will work.
 
